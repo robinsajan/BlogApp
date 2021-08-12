@@ -1,1 +1,1 @@
-Adding to github
+Blog App using Django
