@@ -1,0 +1,249 @@
+{%extends 'mainbase.html' %}
+
+    
+{%block content%}
+    <div id="demo-modal" class="modal">
+ 
+      <div class="modal__content">
+          <div class="header">
+              <h4>Tags</h4>
+              <a href="#" class="modal__close">&times;</a>
+          </div>
+          
+          {% for t in tags%}
+            <a href="{% url 'tag-view' t.title|slugify %}">{{t.title}}</a>
+          {%endfor%}
+          {% if request.user.is_superuser%}
+          <a href="{% url 'add-tags' %}" style="background-color: #1e1e1e;color:#f5f5f5;">Create Tags</a>
+          {%endif%}
+         
+            
+      </div>
+  </div>
+
+    <div class="container">
+      <div class="fixed-social-links">
+        <ul>
+          {%if admin.profile.instagram_url %}
+          <li>
+            <a target="_blank" href="{{admin.profile.instagram_url}}"><i class="fab fa-instagram fa-2x"></i></a>
+          </li>
+          {%endif%}
+          {%if admin.profile.linkeden_url %}
+          <li>
+            <a target="_blank" href="{{admin.profile.linkeden_url}}"><i class="fab fa-linkedin fa-2x"></i></a>
+          </li>
+          {%endif%}
+          {%if admin.profile.twitter_url %}
+          <li>
+            <a target="_blank" href="{{admin.profile.twitter_url}}"><i class="fab fa-twitter fa-2x"></i></a>
+          </li>
+          {%endif%}
+          {%if admin.profile.pitrest_url %}
+          <li>
+            <a target="_blank" href="{{admin.profile.pintrest_url}}"><i class="fab fa-pinterest fa-2x"></i></a>
+          </li>
+          {%endif%}
+          {%if admin.profile.dribble_url %}
+          <li>
+            <a target="_blank" href="{{admin.profile.dribble_url}}"><i class="fas fa-basketball-ball fa-2x"></i></a>
+          </li>
+          {%endif%}
+          {%if admin.profile.website_url %}
+          <li>
+            <a target="_blank" href="{{admin.profile.website_url}}"><i class="fas fa-globe fa-2x"></i></a>
+          </li>
+          {%endif%}
+        </ul>
+      </div>
+      <ul class="home-nav">
+        <li><a href="{% url 'all-blogs'%}">All Posts</a></li>
+        <li><a href="#latest">Latest</a></li>
+        <li><a href="#popular">Popular</a></li>
+        {% if one %}
+            <li><a href="{% url 'tag-view' one.title|slugify %}">{{one.title}}</a></li>
+        {%endif%}
+        {%if two%}
+            <li><a href="{% url 'tag-view' two.title|slugify %}">{{two.title}}</a></li>
+        {%endif%}
+        {%if three%}
+            <li><a href="{% url 'tag-view' three.title|slugify %}">{{three.title}}</a></li>
+        {%endif%}
+        {%if four%}
+            <li><a href="{% url 'tag-view' four.title|slugify %}">{{four.title}}</a></li>
+        {%endif%}
+      </ul>
+
+      <h1 id="demi-title-tag" class="title-tag">{{admin.profile.name_for_blog}}</h1>
+      <div class="main-tags">
+        {%if one%}
+          <div class="one">
+            <a href="{% url 'tag-view' one.title|slugify %}"
+            ><img src="{{one.image.url}}" alt="one"
+            /></a>
+            <h2>{{one.title}}</h2>
+            <div>
+              <p>
+                {{one.context|safe|slice:"100"}}
+              </p>
+            </div>
+          </div>
+        {%endif%}
+        <div class="sub-tag">
+          {%if two%}
+            <div class="two">
+              <a href="{% url 'tag-view' two.title|slugify %}"
+              ><img
+              src="{{two.image.url}}"
+              alt="two"
+              /></a>
+              <h2 class="tag-title">{{two.title}}</h2>
+              <p>
+                {{two.context|safe|slice:"100"}}
+              </p>
+            </div>
+          {%endif%}
+          {% if three %}
+            <div class="three">
+              <a href="{% url 'tag-view' three.title|slugify %}"
+              ><img
+              src="{{three.image.url}}"
+              alt="three"
+              /></a>
+              <h2 class="tag-title">{{three.title}}</h2>
+              <p>
+                {{three.context|safe|slice:"100"}}
+              </p>
+            </div>
+          {%endif%}
+          {%if four %}
+            <div class="four">
+              <a href="{% url 'tag-view' four.title|slugify %}"
+              ><img
+              src="{{four.image.url}}"
+              alt="four"
+              /></a>
+              <h2 class="tag-title">{{four.title}}</h2>
+              <p>
+                {{four.context|safe|slice:"100"}}
+              </p>
+            </div>
+          {%endif%}
+          {%if five %}
+            <div class="five">
+              <a href="{% url 'tag-view' five.title|slugify %}"
+              ><img
+              src="{{five.image.url}}"
+              alt="five"
+              /></a>
+              <h2 class="tag-title">{{five.title}}</h2>
+              <p>
+                {{five.context|safe|slice:"100"}}
+              </p>
+            </div>
+          {%endif%}
+        </div>
+      </div>
+      
+      <div class="search-page">
+        <i id="close-btn" class="fas fa-times fa-2x"></i>
+        <input type="text" id="search" placeholder="Type to Seacrh" >
+        
+        <div class="answer-box">
+          <div class="answer">
+              <img src='https://i.pinimg.com/originals/ce/ec/00/ceec005737449b1dbb7cb7f5a4279530.jpg' alt="">
+              <h3>Title</h3>
+          </div>
+          <div class="answer">
+              <img src='https://i.pinimg.com/originals/ce/ec/00/ceec005737449b1dbb7cb7f5a4279530.jpg' alt="">
+              <h3>Title</h3>
+          </div>
+          
+          <div class="answer">
+              <img src='https://i.pinimg.com/originals/ce/ec/00/ceec005737449b1dbb7cb7f5a4279530.jpg' alt="">
+              <h3>Title</h3>
+          </div>
+          <div class="answer">
+              <img src='https://i.pinimg.com/originals/ce/ec/00/ceec005737449b1dbb7cb7f5a4279530.jpg' alt="">
+              <h3>Title</h3>
+          </div>
+        </div>
+      </div>
+      {% if p_one or p_two or p_three%}
+      <h2 class="popular-tag" id="popular">Popular</h2>
+      
+      <div class="popular" >
+        {% if p_one%}
+        <a href="{%url 'article-view' p_one.pk%}">
+        <div class="popular--content">
+          <div>
+            <img
+            src="{{p_one.image.url}}"
+            alt="one"
+            />
+          </div>
+          </a>
+          <h3>{{p_one.title}}</h3>
+        </div>
+        {%endif%}
+        {%if p_two%}
+        <a href="{%url 'article-view' p_two.pk%}">
+        <div class="popular--content">
+          <div>
+            <img
+            src="{{p_two.image.url}}"
+            alt="two"
+            />
+          </div>
+        </a>
+          <h3>{{p_two.title}}</h3>
+        </div>
+        {%endif%}
+        {% if p_three%}
+        <a href="{%url 'article-view' p_three.pk%}">
+          <div class="popular--content">
+            <div>
+              <img
+              src="{{p_three.image.url}}"
+              alt="three"
+              />
+          </div>
+        </a>
+          <h3>{{p_three.title}}</h3>
+        </div>
+        {%endif%}
+      </div>
+      {%endif%}
+      <h2 class="latest-tag" id="latest">Latest</h2>
+      <div class="latest">
+        {%for p in posts%}
+        
+          <div class="latest--content">
+            <a href="{%url 'article-view' p.pk%}">
+              <div>
+                <img
+                  src="{{p.image.url}}"
+                  alt={{p.title}}
+                />
+              </div>
+            </a>
+            <p style="text-align: center;">
+              {{p.title}}
+            </p>
+          </div>
+        
+        {%endfor%}
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $( function() {
+        
+        $( "#search" ).autocomplete({
+          source:  
+        });
+      } );
+      </script>
+{%endblock%}

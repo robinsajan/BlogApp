@@ -1,0 +1,30 @@
+{%extends 'base.html'%} 
+{%block title%} Viewer Registrations {%endblock%}
+{%block header%}Viewer{%endblock%}
+
+{%block content%} 
+    {% if not super_user%}
+        <h2 ><a href="{% url 'create-author'%}"> Join as A viewer</a></h2>
+    {%else%}
+    
+        {% if messages %} 
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show">
+            <strong>Watchout!!</strong> {{message}}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+            {% endfor %} 
+        {% endif %}
+        <form method="POST" class="my-4">
+        {%csrf_token%}
+        {% for field in form %}
+            <label class="control-label" for="{{ field.id_for_label }}"
+                >{{ field.label }}</label>
+            {{ field }}
+            <br />
+        {% endfor %}
+        <button class="btn btn-primary">Register</button>
+        </form>
+    {%endif%}
+
+{%endblock%}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title%}Blog App {%endblock%}</title>
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'theblog/css/main_base.css'%}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+</head>
+<body  id="body"> 
+  {%if user_count == 0 %}
+  <div class="main-holder">
+    <img class="main-img" src="{% static 'theblog/images/bg1_2.png'%}" alt="image">
+  </div>
+  <div class="main-title-header">
+    <h2 >Become A creator</h2>
+    <a href="{% url 'create-author'%}">Join Now</a>
+  </div>
+  {% else %}
+      <nav id="nav">
+          <a  style="text-decoration:none ;color:#1e1e1e" href="{% url 'home'%}"><h4 id="title-tag">Blog App</h4></a>
+          <i id="burger" class="fas fa-bars fa-2x  "></i>
+          <ul class="nav-bar">
+            <li><i id="search-btn"  class="fa fa-search" aria-hidden="true"></i></li> 
+            <li><a href="#demo-modal ">Tags</a></li>
+            
+            {% if request.user.is_superuser%}
+              <li><a href="{% url 'about-page'%}">Profile</a></li>
+            {%else%}
+              <li><a href="{% url 'about-page'%}">About</a></li>
+            {%endif%}
+            
+            {%if request.user.is_authenticated%}
+            <li><a href="{% url 'logout'%}">Logout</a></li>
+              {% if request.user.is_superuser%}
+                <a href="{% url 'add-post' %}" class="subscribe">Add New Stories</a>&nbsp;
+              {%else%}
+                <a href="{% url 'all-saved-posts'%}" class="subscribe">Saved</a>&nbsp;
+              {%endif%}
+            {%else%}
+            <a href="{% url 'login' %}" class="subscribe">Login</a>&nbsp;
+            {%endif%}
+            
+          </ul>
+        </nav>
+      
+      {%block content%}
+
+
+      {%endblock%}
+      <footer id="footer">
+        <div class="contact">
+          <h2>Contact Me</h2>
+          <a href="mailto:{{admin}}"
+            ><h3>{{admin}}</h3></a
+          >
+          <a href="tel:{{admin.profile.phone_no}}"><h3>{{admin.profile.phone_no}}</h3></a>
+        </div>
+        <div class="follow">
+          <h2>Follow</h2>
+          <ul class="social-links">
+            {%if admin.profile.instagram_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.instagram_url}}"><i class="fab fa-instagram fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.linkeden_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.linkeden_url}}"><i class="fab fa-linkedin fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.twitter_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.twitter_url}}"><i class="fab fa-twitter fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.pitrest_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.pintrest_url}}"><i class="fab fa-pinterest fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.dribble_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.dribble_url}}"><i class="fas fa-basketball-ball fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.website_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.website_url}}"><i class="fas fa-globe fa-2x"></i></a>
+        </li>
+        {%endif%}
+          </ul>
+        </div>
+      </footer>
+      <script src="{% static 'theblog/js/base.js'%}"></script>
+      
+      {%endif%}
+      
+ 
+</body>
+</html>

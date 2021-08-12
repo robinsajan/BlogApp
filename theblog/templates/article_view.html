@@ -1,0 +1,179 @@
+{% extends 'articlebase.html'%}
+{%block title%} Blog : {{post.title}}{%endblock%}
+{%block content%}
+<div id="demo-modal" class="modal">
+ 
+    <div class="modal__content">
+        <div class="header">
+            <h4>Tags</h4>
+            <a href="#" class="modal__close">&times;</a>
+        </div>
+
+        {% for t in tags%}
+            <a href="{% url 'tag-view' t.title|slugify %}">{{t.title}}</a>
+        {%endfor%}
+        {% if request.user.is_superuser%}
+          <a href="{% url 'add-tags' %}" style="background-color: #1e1e1e;color:#f5f5f5;">Create Tags</a>
+        {%endif%}
+       
+          
+    </div>
+  </div>
+  <div class="container">
+    <div class="fixed-social-links">
+      <ul>
+        {%if admin.profile.instagram_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.instagram_url}}"><i class="fab fa-instagram fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.linkeden_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.linkeden_url}}"><i class="fab fa-linkedin fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.twitter_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.twitter_url}}"><i class="fab fa-twitter fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.pitrest_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.pintrest_url}}"><i class="fab fa-pinterest fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.dribble_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.dribble_url}}"><i class="fas fa-basketball-ball fa-2x"></i></a>
+        </li>
+        {%endif%}
+        {%if admin.profile.website_url %}
+        <li>
+          <a target="_blank" href="{{admin.profile.website_url}}"><i class="fas fa-globe fa-2x"></i></a>
+        </li>
+        {%endif%}
+      </ul>
+    </div>
+    
+    <div class="content-header">
+      <span><a style="text-decoration:none" href="{% url 'tag-view' tag.title|slugify %}">{{tag}}</a></span>
+      <h3>{{post.title}}</h3>
+   
+      {% if request.user.is_superuser%}
+         <small><a href="{% url 'edit-post' post.id%}">Edit</a></small>&nbsp;&nbsp;&nbsp;
+         <small><a href="{% url 'delete-post' post.id%}">Delete</a></small>
+      {%else%}
+        {%if request.user.is_authenticated%}
+          {%if not is_saved%}
+            <small><a href="{% url 'save-post' post.pk%}">Save For Later</a></small>
+          {%else%}
+          <small>Saved</small>
+          {%endif%}
+        {%endif%}
+      {%endif%}
+        <p>{{post.overview}}</p>
+    </div>
+    <div class="fixed-tag-image">
+      <img  src="{{tag.tag_bg_img.url}}" alt="bg-image">
+    </div>
+    <div class="main-content">
+      
+     <!--  <img class="img-responsive" src="{{post.image.url}}" alt="ima"> -->
+      <p>{{post.body|safe}}</p>
+      
+      <div class="comments">
+        <div class="comment-header">
+          <h2>{{comments_count}} Comments</h2>
+        </div>
+        {% for c in comments %}
+        <div class="comment-box">
+          <div class="name-comment">
+            <div class="names">
+              <p>{{c.user.name}}</p> <small>on {{c.date_posted}}</small>
+            </div>
+            {% if request.user == c.user %}
+            <div class="links">
+              <a href="{% url 'delete-comment' post.pk c.pk%}">Delete</a>
+            </div>
+            {%elif request.user.is_superuser %}
+            <div class="links">
+              <a href="{% url 'like-comment' c.id%}">Like</a>
+            </div>
+            {%endif%}
+          </div>
+          <div class="comment-content">
+            <p>{{c.comment}}</p>
+          </div>
+          {% if c.is_liked%}
+          <div class="liked">
+            <small>Liked By Robin Sajan</small>
+          </div>
+          {%endif%}
+        </div>
+        {%endfor%}
+        
+      </div>
+      <div class="input-comment">
+        {%if request.user.is_authenticated%}
+        <form method="post">
+          {%csrf_token%}
+          {{form.as_p}}
+          <button class="btn btn-primary" >Add Comment</button>    
+        </form>
+        {%else%}
+          <button onclick="mycall()"> Add a Comment</button>
+          <script>
+            function mycall(){
+              alert("Please Login to Leave a Comment")
+            }
+          </script>
+        {%endif%}
+      </div>
+    </div>
+      
+    </div>
+    <div class="search-page">
+      <i  id="close-btn" class="fas fa-times fa-2x"></i>
+      <input type="text" placeholder="Type to Seacrh" >
+      <div class="answer-box">
+        <div class="answer">
+            <img src='https://i.pinimg.com/originals/ce/ec/00/ceec005737449b1dbb7cb7f5a4279530.jpg' alt="">
+            <h3>Title</h3>
+        </div>
+        <div class="answer">
+            <img src='https://i.pinimg.com/originals/ce/ec/00/ceec005737449b1dbb7cb7f5a4279530.jpg' alt="">
+            <h3>TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle</h3>
+        </div>
+        
+        <div class="answer">
+            <img src='https://i.pinimg.com/originals/ce/ec/00/ceec005737449b1dbb7cb7f5a4279530.jpg' alt="">
+            <h3>Title</h3>
+        </div>
+        <div class="answer">
+            <img src='https://i.pinimg.com/originals/ce/ec/00/ceec005737449b1dbb7cb7f5a4279530.jpg' alt="">
+            <h3>Title</h3>
+        </div>
+      </div>
+    </div>
+
+
+
+    {% if related_post%}
+    <h1 class="suggestion-tag"> More Article By {{tag}}</h1>
+    <div class="suggestion-box">
+      {%for rp in related_post%}
+      <a style="text-decoration: none;" href="{%url 'article-view' rp.pk%}">  
+        <div class="suggestion-content">
+          <img src="{{rp.image.url}}" alt="image">
+          <h3>{{rp.title}}</h3>
+        </div>
+      </a>
+      {%endfor%}
+      
+      
+      
+    </div>
+    {%endif%}
+  </div>
+{%endblock%}
+
